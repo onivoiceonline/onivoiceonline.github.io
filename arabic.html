@@ -1,61 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Arabic Voice Portfolio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Japanese Voice Samples</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background-color: #111;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 40px;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: white;
+}
 
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+/* Top bar */
+.nav {
+    display: flex;
+    gap: 30px;
+    padding: 20px 40px;
+}
 
-        .nav {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+.nav a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.6;
+}
 
-        .nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 16px;
-        }
+.nav .active {
+    opacity: 1;
+    border-bottom: 2px solid #FCB3FF;
+}
 
-        .nav a:hover {
-            text-decoration: underline;
-        }
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 40px;
+}
 
-        .samples {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 30px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+.card {
+    aspect-ratio: 1 / 1;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
 
-        .sample {
-            background-color: #1c1c1c;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
+/* Fullscreen viewer */
+.viewer {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
 
-        .sample img {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
+.viewer.active {
+    display: flex;
+}
 
-        audio {
-            width: 100%;
+.viewer-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.viewer-overlay {
+    position: absolute;
+    inset: 0;
+    background: url("overlay.png") center/cover no-repeat;
+}
+
+/* Controls */
+.play {
+    z-index: 5;
+    font-size: 80px;
+    cursor: pointer;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    font-size: 60px;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.left { left: 30px; }
+.right { right: 30px; }
+
+/* Audio bar */
+audio {
+    position: absolute;
+    bottom: 40px;
+    opacity: 0;
+    transition: opacity 2s;
+}
+
+.viewer:hover audio {
+    opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="nav">
+    <a href="index.html">Home</a>
+    <a class="active">Japanese</a>
+    <a href="english.html">English</a>
+    <a href="arabic.html">Arabic</a>
+</div>
+
+<div class="grid">
+    <div class="card" style="background-image:url('studioenglish.png')" data-image="studioenglish.png" data-audio="studioenglish.mp3"></div>
+    <div class="card" style="background-image:url('kisho.png')" data-image="kisho.png" data-audio="kisho.mp3"></div>
+</div>
+
+<!-- Viewer -->
+<div class="viewer" id="viewer">
+    <div class="viewer-bg" id="viewerBg"></div>
+    <div class="viewer-overlay"></div>
+
+    <div class="arrow left" onclick="prev()">❮</div>
+    <div class="play" onclick="play()">▶</div>
+    <div class="arrow right" onclick="next()">❯</div>
+
+    <audio id="audio" controls></audio>
+</div>
+
+<script>
+const cards = document.querySelectorAll(".card");
+const viewer = document.getElementById("viewer");
+const bg = document.getElementById("viewerBg");
+const audio = document.getElementById("audio");
+
+let index = 0;
+
+cards.forEach((c, i) => {
+    c.onclick = () => openSample(i);
+});
+
+function openSample(i) {
+    index = i;
+    audio.pause();
+    audio.src = cards[i].dataset.audio;
+    bg.style.backgroundImage = `url('${cards[i].dataset.image}')`;
+    viewer.classList.add("active");
+}
+
+function play() {
+    audio.play();
+}
+
+function next() {
+    openSample((index + 1) % cards.length);
+}
+
+function prev() {
+    openSample((index - 1 + cards.length) % cards.length);
+}
+
+viewer.onclick = e => {
+    if (e.target === viewer) {
+        audio.pause();
+        viewer.classList.remove("active");
+    }
+};
+</script>
+
+</body>
+</html>
