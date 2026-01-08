@@ -1,56 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ONI Voice Portfolio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Onikage Voice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #111;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: white;
+    color: #111;
+}
 
-        h1 {
-            margin-bottom: 40px;
-        }
+/* Top bar */
+.nav {
+    display: flex;
+    gap: 30px;
+    padding: 20px 40px;
+    font-weight: bold;
+}
 
-        .language-buttons {
-            display: flex;
-            gap: 20px;
-        }
+.nav a {
+    text-decoration: none;
+    color: #111;
+}
 
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            background-color: #222;
-            color: white;
-        }
+.nav a:hover {
+    color: #FF4D4D;
+}
 
-        button:hover {
-            background-color: #444;
-        }
-    </style>
+/* Center content */
+.center {
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 32px;
+    color: #66B6FA;
+}
+
+.title {
+    font-size: 72px;
+    font-weight: bold;
+    color: #FCB3FF;
+}
+</style>
 </head>
+
 <body>
 
-    <h1>ONI Voice Portfolio</h1>
+<div class="nav">
+    <a href="japanese.html">Japanese</a>
+    <a href="english.html">English</a>
+    <a href="arabic.html">Arabic</a>
+</div>
 
-    <div class="language-buttons">
-        <a href="japanese.html"><button>Japanese</button></a>
-        <a href="english.html"><button>English</button></a>
-        <a href="arabic.html"><button>Arabic</button></a>
+<div class="center">
+    <div class="subtitle">
+        Amedo Capy — Multilingual Voice Acting
     </div>
+    <div class="title">
+        Onikage Voice
+    </div>
+</div>
 
 </body>
 </html>
