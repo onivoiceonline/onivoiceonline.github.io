@@ -184,7 +184,19 @@ function closeViewer() {
     audio.pause();
     viewer.classList.remove("active");
 }
-    
+
+    document.addEventListener("keydown", e => {
+    if (!viewer.classList.contains("active")) return;
+
+    if (e.key === "ArrowRight") next();
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === " ") {
+        e.preventDefault();
+        audio.paused ? audio.play() : audio.pause();
+    }
+    if (e.key === "Escape") closeViewer();
+});
+
 viewer.onclick = e => {
     if (e.target === viewer) {
         closeViewer();
