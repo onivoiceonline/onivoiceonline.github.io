@@ -187,6 +187,9 @@ audio {
     <div class="viewer-bg" id="viewerBg"></div>
     <div class="viewer-overlay"></div>
 
+    <!-- Return Button -->
+    <div class="return" onclick="closeViewer()">← Back</div>
+
     <div class="arrow left" onclick="prev()">❮</div>
 
     <div id="info">
@@ -241,6 +244,25 @@ function closeViewer() {
     viewer.classList.remove("active");
 }
 
+/* Return Button */
+.return {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s;
+}
+
+.return:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+    
 document.addEventListener("keydown", e => {
     if (!viewer.classList.contains("active")) return;
 
