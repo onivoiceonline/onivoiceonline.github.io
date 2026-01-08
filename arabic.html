@@ -168,6 +168,10 @@ function openSample(i) {
     audio.pause();
     audio.src = cards[i].dataset.audio;
     bg.style.backgroundImage = `url('${cards[i].dataset.image}')`;
+
+    document.getElementById("charName").textContent = cards[i].dataset.name;
+    document.getElementById("charRole").textContent = cards[i].dataset.role;
+
     viewer.classList.add("active");
 }
 
