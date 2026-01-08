@@ -180,12 +180,17 @@ function prev() {
     openSample((index - 1 + cards.length) % cards.length);
 }
 
+function closeViewer() {
+    audio.pause();
+    viewer.classList.remove("active");
+}
+    
 viewer.onclick = e => {
     if (e.target === viewer) {
-        audio.pause();
-        viewer.classList.remove("active");
+        closeViewer();
     }
 };
+
 </script>
 
 </body>
