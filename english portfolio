@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONI Voice Portfolio</title>
+</head>
+<body>
+    <h1>Welcome to ONI Voice Portfolio</h1>
+    <p>Here are some sample voice clips:</p>
+
+    <div class="sample">
+        <h2>Character 1</h2>
+        <img src="studiomicenglish.png" alt="Character 1" style="width:200px;">
+        <audio controls>
+            <source src="studiomicenglish.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
