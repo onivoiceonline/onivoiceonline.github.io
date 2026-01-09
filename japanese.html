@@ -13,25 +13,16 @@ body {
     color: white;
 }
 
-/* ===== NAV BAR ===== */
+/* ---------- NAV ---------- */
 .nav {
     display: flex;
     align-items: center;
-    gap: 32px;
-    padding: 22px 40px;
+    gap: 30px;
+    padding: 20px 40px;
 }
 
 .logo {
-    height: 72px;                 /* FIX: bigger logo */
-    width: auto;
-    cursor: pointer;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-    filter: drop-shadow(0 0 12px rgba(252,179,255,0.4));
-}
-
-.logo:hover {
-    transform: scale(1.05);
-    opacity: 0.95;
+    height: 86px;
 }
 
 .nav a {
@@ -45,32 +36,29 @@ body {
     border-bottom: 2px solid #FCB3FF;
 }
 
-/* ===== GRID ===== */
+/* ---------- GRID ---------- */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    gap: 30px;
     padding: 40px;
 }
 
 .card {
-    aspect-ratio: 16 / 9;         /* FIX: wider, cleaner */
+    aspect-ratio: 16 / 10;
+    border-radius: 18px;
     background-size: cover;
     background-position: center;
     cursor: pointer;
-
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: transform 0.3s ease;
 }
 
 .card:hover {
     transform: scale(1.04);
-    box-shadow: 0 0 30px rgba(252,179,255,0.35);
 }
 
-/* ===== VIEWER ===== */
+/* ---------- VIEWER ---------- */
 .viewer {
     position: fixed;
     inset: 0;
@@ -106,39 +94,26 @@ body {
     background: url("overlay.png") center/cover no-repeat;
 }
 
-/* Return */
-.return {
-    position: absolute;
-    top: 24px;
-    left: 24px;
-    font-size: 22px;
-    background: rgba(0,0,0,0.55);
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    z-index: 10;
-}
-
-/* Info */
+/* ---------- INFO ---------- */
 #info {
     z-index: 5;
     text-align: center;
 }
 
 #charName {
-    font-size: 34px;
+    font-size: 32px;
     margin: 0;
 }
 
 #charRole {
     font-size: 18px;
-    opacity: 0.85;
+    opacity: 0.8;
     margin-top: 6px;
 }
 
-/* Controls */
+/* ---------- CONTROLS ---------- */
 .play {
-    font-size: 82px;
+    font-size: 80px;
     cursor: pointer;
     margin-top: 30px;
 }
@@ -146,7 +121,7 @@ body {
 .arrow {
     position: absolute;
     top: 50%;
-    font-size: 64px;
+    font-size: 60px;
     cursor: pointer;
     z-index: 5;
 }
@@ -154,14 +129,14 @@ body {
 .left { left: 30px; }
 .right { right: 30px; }
 
-/* Audio */
+/* ---------- AUDIO ---------- */
 audio {
     position: absolute;
     bottom: 40px;
     width: 80%;
-    max-width: 620px;
+    max-width: 600px;
     opacity: 0;
-    transition: opacity 0.6s ease;
+    transition: opacity 0.8s ease;
     z-index: 5;
 }
 
@@ -169,22 +144,39 @@ audio {
     opacity: 1;
 }
 
-/* ===== MOBILE ===== */
+/* ---------- RETURN ---------- */
+.return {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 22px;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
     .grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
     .logo {
-        height: 58px;
+        height: 68px;
     }
 
     .play {
-        font-size: 64px;
+        font-size: 60px;
     }
 
     .arrow {
-        font-size: 42px;
+        font-size: 40px;
+    }
+
+    #charName {
+        font-size: 24px;
     }
 }
 </style>
@@ -192,15 +184,16 @@ audio {
 
 <body>
 
+<!-- NAV -->
 <div class="nav">
     <img src="onilogo.png" class="logo" alt="Onikage Logo">
-
     <a href="index.html">Home</a>
     <a class="active">Japanese</a>
     <a href="english.html">English</a>
     <a href="arabic.html">Arabic</a>
 </div>
 
+<!-- GRID -->
 <div class="grid">
     <div class="card"
         style="background-image:url('soshi ushikai.png')"
@@ -231,7 +224,7 @@ audio {
     <div id="info">
         <h2 id="charName"></h2>
         <p id="charRole"></p>
-        <div class="play" onclick="play()">▶</div>
+        <div class="play" onclick="togglePlay()">▶</div>
     </div>
 
     <div class="arrow right" onclick="next()">❯</div>
@@ -244,32 +237,35 @@ const cards = document.querySelectorAll(".card");
 const viewer = document.getElementById("viewer");
 const bg = document.getElementById("viewerBg");
 const audio = document.getElementById("audio");
-const logo = document.querySelector(".logo");
+const playBtn = document.querySelector(".play");
 
 let index = 0;
 
-cards.forEach((c, i) => {
-    c.onclick = () => openSample(i);
+cards.forEach((card, i) => {
+    card.onclick = () => openSample(i);
 });
 
 function openSample(i) {
     index = i;
-
     audio.pause();
-    audio.currentTime = 0;   // FIX
     audio.src = cards[i].dataset.audio;
-    audio.load();            // FIX
-
     bg.style.backgroundImage = `url('${cards[i].dataset.image}')`;
 
     document.getElementById("charName").textContent = cards[i].dataset.name;
     document.getElementById("charRole").textContent = cards[i].dataset.role;
 
+    playBtn.textContent = "▶";
     viewer.classList.add("active");
 }
 
-function play() {
-    audio.play();
+function togglePlay() {
+    if (audio.paused) {
+        audio.play();
+        playBtn.textContent = "❚❚";
+    } else {
+        audio.pause();
+        playBtn.textContent = "▶";
+    }
 }
 
 function next() {
@@ -285,19 +281,22 @@ function closeViewer() {
     viewer.classList.remove("active");
 }
 
-logo.onclick = closeViewer;
-
 /* Keyboard */
 document.addEventListener("keydown", e => {
     if (!viewer.classList.contains("active")) return;
 
     if (e.key === "ArrowRight") next();
     if (e.key === "ArrowLeft") prev();
+    if (e.key === "Escape") closeViewer();
     if (e.key === " ") {
         e.preventDefault();
-        audio.paused ? audio.play() : audio.pause();
+        togglePlay();
     }
-    if (e.key === "Escape") closeViewer();
+});
+
+/* Click outside to close */
+viewer.addEventListener("click", e => {
+    if (e.target === viewer) closeViewer();
 });
 </script>
 
