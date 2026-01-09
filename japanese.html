@@ -13,22 +13,30 @@ body {
     color: white;
 }
 
-/* Top bar */
+/* ===== NAV BAR ===== */
 .nav {
     display: flex;
+    align-items: center;
     gap: 30px;
     padding: 20px 40px;
+}
+
+.logo {
+    height: 44px;
+    width: auto;
+    cursor: pointer;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
 }
 
 .nav a {
     color: white;
     text-decoration: none;
     opacity: 0.6;
-    transition: opacity 0.3s;
-}
-
-.nav a:hover {
-    opacity: 0.9;
 }
 
 .nav .active {
@@ -36,30 +44,33 @@ body {
     border-bottom: 2px solid #FCB3FF;
 }
 
-/* Grid (UPDATED CARD STYLE) */
+/* ===== GRID ===== */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
     padding: 40px;
 }
 
+/* Sample cards */
 .card {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 16 / 10; /* wider than tall */
     background-size: cover;
     background-position: center;
     cursor: pointer;
+
     border-radius: 18px;
-    border: 2px solid rgba(255,255,255,0.15);
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
     transform: scale(1.03);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    box-shadow: 0 0 25px rgba(252,179,255,0.25);
 }
 
-/* Viewer */
+/* ===== FULLSCREEN VIEWER ===== */
 .viewer {
     position: fixed;
     inset: 0;
@@ -95,72 +106,7 @@ body {
     background: url("overlay.png") center/cover no-repeat;
 }
 
-/* Info */
-#info {
-    z-index: 5;
-    text-align: center;
-    margin-bottom: 120px;
-}
-
-#charName {
-    font-size: 32px;
-    margin: 0;
-}
-
-#charRole {
-    font-size: 18px;
-    opacity: 0.8;
-    margin-top: 6px;
-}
-
-/* Play */
-.play {
-    font-size: 80px;
-    cursor: pointer;
-    margin-top: 35px;
-    transition: transform 0.2s ease, opacity 0.2s;
-}
-
-.play:hover {
-    transform: scale(1.1);
-    opacity: 0.85;
-}
-
-/* Arrows */
-.arrow {
-    position: absolute;
-    top: 50%;
-    font-size: 60px;
-    cursor: pointer;
-    z-index: 5;
-    user-select: none;
-    opacity: 0.6;
-    transition: opacity 0.3s;
-}
-
-.arrow:hover {
-    opacity: 1;
-}
-
-.left { left: 30px; }
-.right { right: 30px; }
-
-/* Audio */
-audio {
-    position: absolute;
-    bottom: 40px;
-    width: 80%;
-    max-width: 600px;
-    z-index: 5;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-
-.viewer.active audio {
-    opacity: 1;
-}
-
-/* Back button */
+/* Return button */
 .return {
     position: absolute;
     top: 20px;
@@ -174,11 +120,73 @@ audio {
     z-index: 10;
 }
 
-/* Mobile */
+/* Character info */
+#info {
+    z-index: 5;
+    text-align: center;
+}
+
+#charName {
+    font-size: 32px;
+    margin: 0;
+}
+
+#charRole {
+    font-size: 18px;
+    opacity: 0.8;
+    margin-top: 6px;
+}
+
+/* Controls */
+.play {
+    font-size: 80px;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    font-size: 60px;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.left { left: 30px; }
+.right { right: 30px; }
+
+/* Audio */
+audio {
+    position: absolute;
+    bottom: 40px;
+    width: 80%;
+    max-width: 600px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 5;
+}
+
+.viewer.active:hover audio {
+    opacity: 1;
+}
+
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
-    .play { font-size: 60px; }
-    .arrow { font-size: 40px; }
-    #charName { font-size: 24px; }
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .play {
+        font-size: 60px;
+    }
+
+    .arrow {
+        font-size: 40px;
+    }
+
+    #charName {
+        font-size: 24px;
+    }
 }
 </style>
 </head>
@@ -186,6 +194,8 @@ audio {
 <body>
 
 <div class="nav">
+    <img src="onilogo.png" class="logo" alt="Onikage Logo">
+
     <a href="index.html">Home</a>
     <a class="active">Japanese</a>
     <a href="english.html">English</a>
@@ -210,20 +220,23 @@ audio {
     </div>
 </div>
 
+<!-- Viewer -->
 <div class="viewer" id="viewer">
     <div class="viewer-bg" id="viewerBg"></div>
     <div class="viewer-overlay"></div>
 
     <div class="return" onclick="closeViewer()">← Back</div>
+
     <div class="arrow left" onclick="prev()">❮</div>
 
     <div id="info">
         <h2 id="charName"></h2>
         <p id="charRole"></p>
-        <div class="play" onclick="togglePlay()">▶</div>
+        <div class="play" onclick="play()">▶</div>
     </div>
 
     <div class="arrow right" onclick="next()">❯</div>
+
     <audio id="audio" controls></audio>
 </div>
 
@@ -232,37 +245,29 @@ const cards = document.querySelectorAll(".card");
 const viewer = document.getElementById("viewer");
 const bg = document.getElementById("viewerBg");
 const audio = document.getElementById("audio");
-const playBtn = document.querySelector(".play");
+const logo = document.querySelector(".logo");
 
 let index = 0;
 
-/* Open */
-cards.forEach((c, i) => c.onclick = () => openSample(i));
+cards.forEach((c, i) => {
+    c.onclick = () => openSample(i);
+});
 
 function openSample(i) {
     index = i;
     audio.pause();
-    audio.currentTime = 0;
     audio.src = cards[i].dataset.audio;
     bg.style.backgroundImage = `url('${cards[i].dataset.image}')`;
-    charName.textContent = cards[i].dataset.name;
-    charRole.textContent = cards[i].dataset.role;
-    playBtn.textContent = "▶";
+
+    document.getElementById("charName").textContent = cards[i].dataset.name;
+    document.getElementById("charRole").textContent = cards[i].dataset.role;
+
     viewer.classList.add("active");
 }
 
-/* Controls */
-function togglePlay() {
-    if (audio.paused) {
-        audio.play();
-        playBtn.textContent = "❚❚";
-    } else {
-        audio.pause();
-        playBtn.textContent = "▶";
-    }
+function play() {
+    audio.play();
 }
-
-audio.onended = () => playBtn.textContent = "▶";
 
 function next() {
     openSample((index + 1) % cards.length);
@@ -277,30 +282,4 @@ function closeViewer() {
     viewer.classList.remove("active");
 }
 
-/* Keyboard */
-document.addEventListener("keydown", e => {
-    if (!viewer.classList.contains("active")) return;
-    if (e.key === "ArrowRight") next();
-    if (e.key === "ArrowLeft") prev();
-    if (e.key === "Escape") closeViewer();
-});
-
-/* Swipe gesture */
-let startX = 0;
-
-viewer.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-});
-
-viewer.addEventListener("touchend", e => {
-    let endX = e.changedTouches[0].clientX;
-    let diff = startX - endX;
-
-    if (Math.abs(diff) > 60) {
-        diff > 0 ? next() : prev();
-    }
-});
-</script>
-
-</body>
-</html>
+/* Logo closes viewer*
