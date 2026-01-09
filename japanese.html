@@ -159,6 +159,7 @@ audio {
 
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
+
     .grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -167,12 +168,25 @@ audio {
         height: 68px;
     }
 
+    /* Align arrows + play horizontally */
+    #info {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
     .play {
-        font-size: 60px;
+        font-size: 56px;
+        margin-top: 0;
     }
 
     .arrow {
+        position: static;
         font-size: 40px;
+    }
+
+    .left, .right {
+        transform: none;
     }
 
     #charName {
@@ -241,6 +255,7 @@ const playBtn = document.querySelector(".play");
 
 let index = 0;
 
+/* ---------- OPEN ---------- */
 cards.forEach((card, i) => {
     card.onclick = () => openSample(i);
 });
@@ -248,9 +263,10 @@ cards.forEach((card, i) => {
 function openSample(i) {
     index = i;
     audio.pause();
+    audio.currentTime = 0;
     audio.src = cards[i].dataset.audio;
-    bg.style.backgroundImage = `url('${cards[i].dataset.image}')`;
 
+    bg.style.backgroundImage = `url('${cards[i].dataset.image}')`;
     document.getElementById("charName").textContent = cards[i].dataset.name;
     document.getElementById("charRole").textContent = cards[i].dataset.role;
 
@@ -258,6 +274,7 @@ function openSample(i) {
     viewer.classList.add("active");
 }
 
+/* ---------- PLAY / PAUSE ---------- */
 function togglePlay() {
     if (audio.paused) {
         audio.play();
@@ -268,6 +285,11 @@ function togglePlay() {
     }
 }
 
+audio.addEventListener("ended", () => {
+    playBtn.textContent = "▶";
+});
+
+/* ---------- NAV ---------- */
 function next() {
     openSample((index + 1) % cards.length);
 }
@@ -276,12 +298,13 @@ function prev() {
     openSample((index - 1 + cards.length) % cards.length);
 }
 
+/* ---------- CLOSE ---------- */
 function closeViewer() {
     audio.pause();
     viewer.classList.remove("active");
 }
 
-/* Keyboard */
+/* ---------- KEYBOARD ---------- */
 document.addEventListener("keydown", e => {
     if (!viewer.classList.contains("active")) return;
 
@@ -294,7 +317,20 @@ document.addEventListener("keydown", e => {
     }
 });
 
-/* Click outside to close */
+/* ---------- SWIPE (MOBILE) ---------- */
+let startX = 0;
+
+viewer.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+});
+
+viewer.addEventListener("touchend", e => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (diff > 60) prev();
+    if (diff < -60) next();
+});
+
+/* ---------- CLICK OUTSIDE ---------- */
 viewer.addEventListener("click", e => {
     if (e.target === viewer) closeViewer();
 });
