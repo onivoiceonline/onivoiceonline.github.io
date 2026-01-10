@@ -9,65 +9,59 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: white;
     color: #111;
 }
 
-/* Top bar */
+/* ---------- BACKGROUND ---------- */
+.home {
+    min-height: 100vh;
+    background: url("homepagewallpaper.png") center center / cover no-repeat;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- NAV ---------- */
 .nav {
     display: flex;
+    align-items: center;
     gap: 30px;
     padding: 20px 40px;
     font-weight: bold;
+    z-index: 5;
 }
 
 .nav a {
     text-decoration: none;
     color: #111;
+    opacity: 0.85;
 }
 
 .nav a:hover {
     color: #FF4D4D;
+    opacity: 1;
 }
 
-/* Center content */
-.center {
-    height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.subtitle {
-    font-size: 32px;
-    color: #66B6FA;
-}
-
-.title {
-    font-size: 72px;
-    font-weight: bold;
-    color: #FCB3FF;
+/* ---------- MOBILE ---------- */
+@media (max-width: 768px) {
+    .nav {
+        padding: 16px 20px;
+        gap: 20px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="nav">
-    <a href="japanese.html">Japanese</a>
-    <a href="english.html">English</a>
-    <a href="arabic.html">Arabic</a>
-</div>
+<div class="home">
 
-<div class="center">
-    <div class="subtitle">
-        Amedo Capy — Multilingual Voice Acting
+    <!-- NAV -->
+    <div class="nav">
+        <a href="japanese.html">Japanese</a>
+        <a href="english.html">English</a>
+        <a href="arabic.html">Arabic</a>
     </div>
-    <div class="title">
-        Onikage Voice
-    </div>
+
 </div>
 
 </body>
