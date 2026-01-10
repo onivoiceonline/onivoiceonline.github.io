@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ---------- BASE ---------- */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    color: #111;
 }
 
 /* ---------- BACKGROUND ---------- */
@@ -20,20 +20,20 @@ body {
     flex-direction: column;
 }
 
-/* ---------- NAV ---------- */
+/* ---------- NAV (TOP BAR) ---------- */
 .nav {
     display: flex;
     align-items: center;
     gap: 30px;
     padding: 20px 40px;
-    font-weight: bold;
     z-index: 5;
 }
 
 .nav a {
     text-decoration: none;
-    color: #111;
-    opacity: 0.85;
+    color: white;
+    opacity: 0.8;
+    font-weight: bold;
 }
 
 .nav a:hover {
@@ -41,11 +41,65 @@ body {
     opacity: 1;
 }
 
+/* ---------- CENTER BUTTON AREA ---------- */
+.lang-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lang-buttons {
+    display: flex;
+    gap: 30px;
+}
+
+/* ---------- LANGUAGE BUTTONS ---------- */
+.lang-btn {
+    padding: 22px 46px;
+    font-size: 26px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    border-radius: 16px;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(2px);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+/* Individual accents */
+.lang-jp {
+    border-color: #FCB3FF;
+}
+.lang-en {
+    border-color: #66B6FA;
+}
+.lang-ar {
+    border-color: #FF4D4D;
+}
+
+/* Hover effects */
+.lang-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255,255,255,0.2);
+}
+
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
     .nav {
         padding: 16px 20px;
         gap: 20px;
+    }
+
+    .lang-buttons {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .lang-btn {
+        font-size: 22px;
+        padding: 18px 36px;
     }
 }
 </style>
@@ -55,11 +109,20 @@ body {
 
 <div class="home">
 
-    <!-- NAV -->
+    <!-- TOP NAV -->
     <div class="nav">
         <a href="japanese.html">Japanese</a>
         <a href="english.html">English</a>
         <a href="arabic.html">Arabic</a>
+    </div>
+
+    <!-- CENTER LANGUAGE BUTTONS -->
+    <div class="lang-container">
+        <div class="lang-buttons">
+            <a href="japanese.html" class="lang-btn lang-jp">Japanese</a>
+            <a href="english.html" class="lang-btn lang-en">English</a>
+            <a href="arabic.html" class="lang-btn lang-ar">Arabic</a>
+        </div>
     </div>
 
 </div>
