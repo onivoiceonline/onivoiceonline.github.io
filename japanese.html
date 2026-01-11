@@ -115,7 +115,7 @@ body {
 .play {
     font-size: 80px;
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 26px;
 }
 
 .arrow {
@@ -160,37 +160,41 @@ audio {
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
 
+    /* Remove logo on mobile */
+    .logo {
+        display: none;
+    }
+
+    /* Force 2-column grid */
     .grid {
         grid-template-columns: repeat(2, 1fr);
+        padding: 24px;
+        gap: 20px;
     }
 
-    .logo {
-        height: 68px;
-    }
-
-    /* Align arrows + play horizontally */
+    /* Viewer info properly stacked */
     #info {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 24px;
-    }
-
-    .play {
-        font-size: 56px;
-        margin-top: 0;
-    }
-
-    .arrow {
-        position: static;
-        font-size: 40px;
-    }
-
-    .left, .right {
-        transform: none;
+        gap: 10px;
     }
 
     #charName {
         font-size: 24px;
+    }
+
+    #charRole {
+        font-size: 16px;
+    }
+
+    .play {
+        font-size: 56px;
+        margin-top: 10px;
+    }
+
+    .arrow {
+        font-size: 40px;
     }
 }
 </style>
@@ -255,7 +259,6 @@ const playBtn = document.querySelector(".play");
 
 let index = 0;
 
-/* ---------- OPEN ---------- */
 cards.forEach((card, i) => {
     card.onclick = () => openSample(i);
 });
@@ -267,14 +270,13 @@ function openSample(i) {
     audio.src = cards[i].dataset.audio;
 
     bg.style.backgroundImage = `url('${cards[i].dataset.image}')`;
-    document.getElementById("charName").textContent = cards[i].dataset.name;
-    document.getElementById("charRole").textContent = cards[i].dataset.role;
+    charName.textContent = cards[i].dataset.name;
+    charRole.textContent = cards[i].dataset.role;
 
     playBtn.textContent = "▶";
     viewer.classList.add("active");
 }
 
-/* ---------- PLAY / PAUSE ---------- */
 function togglePlay() {
     if (audio.paused) {
         audio.play();
@@ -289,7 +291,6 @@ audio.addEventListener("ended", () => {
     playBtn.textContent = "▶";
 });
 
-/* ---------- NAV ---------- */
 function next() {
     openSample((index + 1) % cards.length);
 }
@@ -298,41 +299,18 @@ function prev() {
     openSample((index - 1 + cards.length) % cards.length);
 }
 
-/* ---------- CLOSE ---------- */
 function closeViewer() {
     audio.pause();
     viewer.classList.remove("active");
 }
 
-/* ---------- KEYBOARD ---------- */
-document.addEventListener("keydown", e => {
-    if (!viewer.classList.contains("active")) return;
-
-    if (e.key === "ArrowRight") next();
-    if (e.key === "ArrowLeft") prev();
-    if (e.key === "Escape") closeViewer();
-    if (e.key === " ") {
-        e.preventDefault();
-        togglePlay();
-    }
-});
-
-/* ---------- SWIPE (MOBILE) ---------- */
+/* Swipe */
 let startX = 0;
-
-viewer.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-});
-
+viewer.addEventListener("touchstart", e => startX = e.touches[0].clientX);
 viewer.addEventListener("touchend", e => {
     const diff = e.changedTouches[0].clientX - startX;
     if (diff > 60) prev();
     if (diff < -60) next();
-});
-
-/* ---------- CLICK OUTSIDE ---------- */
-viewer.addEventListener("click", e => {
-    if (e.target === viewer) closeViewer();
 });
 </script>
 
