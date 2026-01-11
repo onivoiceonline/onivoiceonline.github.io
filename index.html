@@ -20,33 +20,11 @@ body {
     flex-direction: column;
 }
 
-/* ---------- NAV (TOP BAR) ---------- */
-.nav {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    padding: 20px 40px;
-    z-index: 5;
-}
-
-.nav a {
-    text-decoration: none;
-    color: white;
-    opacity: 0.8;
-    font-weight: bold;
-}
-
-.nav a:hover {
-    color: #FF4D4D;
-    opacity: 1;
-}
-
-/* ---------- CENTER BUTTON AREA ---------- */
+/* ---------- LANGUAGE BUTTON AREA ---------- */
 .lang-container {
-    flex: 1;
+    padding-top: 60px; /* controls vertical position */
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .lang-buttons {
@@ -72,9 +50,11 @@ body {
 .lang-jp {
     border-color: #FCB3FF;
 }
+
 .lang-en {
     border-color: #66B6FA;
 }
+
 .lang-ar {
     border-color: #FF4D4D;
 }
@@ -82,16 +62,11 @@ body {
 /* Hover effects */
 .lang-btn:hover {
     transform: scale(1.08);
-    box-shadow: 0 0 25px rgba(255,255,255,0.2);
+    box-shadow: 0 0 25px rgba(255,255,255,0.25);
 }
 
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
-    .nav {
-        padding: 16px 20px;
-        gap: 20px;
-    }
-
     .lang-buttons {
         flex-direction: column;
         gap: 20px;
@@ -101,6 +76,10 @@ body {
         font-size: 22px;
         padding: 18px 36px;
     }
+
+    .lang-container {
+        padding-top: 40px;
+    }
 }
 </style>
 </head>
@@ -109,14 +88,7 @@ body {
 
 <div class="home">
 
-    <!-- TOP NAV -->
-    <div class="nav">
-        <a href="japanese.html">Japanese</a>
-        <a href="english.html">English</a>
-        <a href="arabic.html">Arabic</a>
-    </div>
-
-    <!-- CENTER LANGUAGE BUTTONS -->
+    <!-- LANGUAGE BUTTONS -->
     <div class="lang-container">
         <div class="lang-buttons">
             <a href="japanese.html" class="lang-btn lang-jp">Japanese</a>
