@@ -66,9 +66,11 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: url("overlay.png") center/cover no-repeat;
+    background: url("overlay.png") center / cover no-repeat;
     opacity: 0;
     transition: opacity 0.35s ease;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .card:hover::after {
@@ -88,6 +90,7 @@ body {
     z-index: 2;
     opacity: 0;
     transition: opacity 0.35s ease;
+    pointer-events: none;
 }
 
 .card:hover .card-name {
@@ -127,7 +130,7 @@ body {
 .viewer-overlay {
     position: absolute;
     inset: 0;
-    background: url("overlay.png") center/cover no-repeat;
+    background: url("overlay.png") center / cover no-repeat;
 }
 
 /* ---------- INFO ---------- */
