@@ -44,18 +44,54 @@ body {
     padding: 40px;
 }
 
+/* ---------- CARD ---------- */
 .card {
+    position: relative;
     aspect-ratio: 16 / 10;
     border-radius: 18px;
     background-size: cover;
     background-position: center;
     cursor: pointer;
     border: 2px solid rgba(255,255,255,0.15);
+    overflow: hidden;
     transition: transform 0.3s ease;
 }
 
 .card:hover {
     transform: scale(1.04);
+}
+
+/* ---------- CARD HOVER OVERLAY ---------- */
+.card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("overlay.png") center/cover no-repeat;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.card:hover::after {
+    opacity: 1;
+}
+
+/* ---------- CARD NAME ---------- */
+.card-name {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.card:hover .card-name {
+    opacity: 1;
 }
 
 /* ---------- VIEWER ---------- */
@@ -160,19 +196,22 @@ audio {
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
 
-    /* Remove logo on mobile */
     .logo {
         display: none;
     }
 
-    /* Force 2-column grid */
     .grid {
         grid-template-columns: repeat(2, 1fr);
         padding: 24px;
         gap: 20px;
     }
 
-    /* Viewer info properly stacked */
+    /* Disable hover overlay on mobile */
+    .card::after,
+    .card-name {
+        display: none;
+    }
+
     #info {
         display: flex;
         flex-direction: column;
@@ -213,12 +252,14 @@ audio {
 
 <!-- GRID -->
 <div class="grid">
+
     <div class="card"
         style="background-image:url('soshi ushikai.png')"
         data-image="soshi ushikai.png"
         data-audio="soshi ushikai.mp3"
         data-name="Soshi Ushikai"
         data-role="Narration / RPG">
+        <div class="card-name">Soshi Ushikai</div>
     </div>
 
     <div class="card"
@@ -227,6 +268,7 @@ audio {
         data-audio="Kisho Himura.mp3"
         data-name="Kisho Himura"
         data-role="Animation">
+        <div class="card-name">Kisho Himura</div>
     </div>
 
     <div class="card"
@@ -235,7 +277,9 @@ audio {
         data-audio="askar.mp3"
         data-name="Askar"
         data-role="Anime">
+        <div class="card-name">Askar</div>
     </div>
+
 </div>
 
 <!-- VIEWER -->
@@ -264,6 +308,8 @@ const viewer = document.getElementById("viewer");
 const bg = document.getElementById("viewerBg");
 const audio = document.getElementById("audio");
 const playBtn = document.querySelector(".play");
+const charName = document.getElementById("charName");
+const charRole = document.getElementById("charRole");
 
 let index = 0;
 
